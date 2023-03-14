@@ -1,3 +1,0 @@
-- Implement JWT Token.
-- Create middleware for JWT Token validation.
-- Create middleware for JWT Token refresh.
