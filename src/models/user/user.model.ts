@@ -3,10 +3,11 @@ import { UserProps } from "./user.types";
 import { reusableSchemaMethods } from "../wishlist/utils";
 
 const UserSchema = new Schema<UserProps>({
-  id: { type: String },
+  uid: { type: String },
   username: { type: String, required: [true, "The username is required"] },
   email: { type: String, required: [true, "The email is required"] },
   password: { type: String, required: [true, "The password is required"] },
+  status: { type: Boolean, default: true },
 });
 
 // Delete __v from response.

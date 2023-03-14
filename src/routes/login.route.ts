@@ -3,6 +3,9 @@ import { UserModel } from "../models";
 import { HttpResponse } from "../errors";
 import { comparePassword } from "../lib/bcrypt/";
 
+// Generate token
+import { generateJwt } from "../lib/jwt";
+
 // Create router
 const loginRouter = Router();
 
@@ -28,7 +31,8 @@ loginRouter.post("/", async (req: Request, res: Response) => {
     const validPassword = await comparePassword(password, user.password);
     if (!validPassword) return send(res, 401, "Invalid password");
 
-    return send(res, 200, user);
+    const token = generateJwt(user.uid);
+    return send(res, 200, { user, token });
   } catch (error) {
     return send(res, 500, "Error logging in");
   }
