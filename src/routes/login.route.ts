@@ -13,9 +13,13 @@ const loginRouter = Router();
 const { send } = HttpResponse;
 
 loginRouter.get("/", async (req: Request, res: Response) => {
+  const query = true
+
   try {
-    const users = await UserModel.find();
-    return send(res, 200, users);
+    const users = await UserModel.find({ status: query });
+    
+    if (users.length === 0) return send(res, 404, "Don't exist users");
+    else return send(res, 200, users);
   } catch (error) {
     return send(res, 500, "Error getting users");
   }
@@ -37,5 +41,20 @@ loginRouter.post("/", async (req: Request, res: Response) => {
     return send(res, 500, "Error logging in");
   }
 });
+
+loginRouter.delete("/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const user = await UserModel.findByIdAndUpdate(id, { status: false });
+
+    if (!user || user.status === false) return send(res, 404, "User not found");
+    else return send(res, 200, "User deleted");
+  } catch (error) {
+    return send(res, 500, "Error deleting user");
+  }
+});
+
+
 
 export default loginRouter;
