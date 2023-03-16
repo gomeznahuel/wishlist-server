@@ -4,9 +4,7 @@ import fs from "fs";
 
 const loadRoutes = (app: Express): void => {
   // Get the path of the routes folder.
-  const routesPath: string = path.join(__dirname, "../routes");
-
-  // Get the files in the routes folder and remove the file extension.
+  const routesPath: string = path.join(__dirname, "../../../routes");
   const routeFiles: string[] = fs.readdirSync(routesPath).map((file: string) => path.parse(file).name);
 
   // Loop through the files and require them.
@@ -14,6 +12,7 @@ const loadRoutes = (app: Express): void => {
     const { name: slug }: path.ParsedPath = path.parse(routeFile);
     const route: Router = require(path.join(routesPath, routeFile)).default;
 
+    console.log(`Route loaded: ${slug}`)
     const routePath: string = `/api/${slug}`;
     app.use(routePath, route);
   });

@@ -14,9 +14,9 @@ const { send } = HttpResponse;
 WishlistRouter.get("/", async (req: Request, res: Response) => {
   try {
     const wishlists = await Wishlist.find();
-    return send(res, 200, wishlists);
+    return res.status(200).json(wishlists);
   } catch (error) {
-    return send(res, 500, "Error getting wishlists");
+    return send(res, 500, "Error getting wishlists")
   }
 });
 
@@ -28,7 +28,7 @@ WishlistRouter.get("/:id", async (req: Request, res: Response) => {
 
   try {
     const wishlist = await Wishlist.findById(id);
-    return send(res, 200, wishlist);
+    return res.status(200).json(wishlist);
   } catch (error) {
     return send(res, 500, "Error getting wishlist");
   }
@@ -42,7 +42,7 @@ WishlistRouter.post("/", isEmpty ,async (req: Request, res: Response) => {
 
   try {
     const wishlistSaved = await wishlist.save();
-    return send(res, 201, wishlistSaved);
+    return res.status(201).json(wishlistSaved);
   } catch (error) {
     return send(res, 500, "Error saving wishlist");
   }
@@ -60,7 +60,7 @@ WishlistRouter.put("/:id", isEmpty, async (req: Request, res: Response) => {
     const wishlist = await Wishlist.findByIdAndUpdate( id, { title, description, price, url }, { new: true });
 
     if (!wishlist) return send(res, 404, "Wishlist not found");
-    else return send(res, 200, wishlist);
+    else return res.status(200).json(wishlist);
   } catch (error) {
     return send(res, 500, "Error updating wishlist");
   }
@@ -76,11 +76,10 @@ WishlistRouter.delete("/:id", verify, async (req: Request, res: Response) => {
     const wishlist = await Wishlist.findByIdAndDelete(id);
 
     if (!wishlist) return send(res, 404, "Wishlist not found");
-    else return send(res, 200, "Wishlist deleted");
+    else return res.status(200).json(wishlist);
   } catch (error) {
     return send(res, 500, "Error deleting wishlist");
   }
 });
-
 
 export default WishlistRouter;

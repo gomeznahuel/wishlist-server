@@ -1,6 +1,6 @@
 import express, { Express } from "express";
 import { dbConnection } from "../../database";
-import { listenServer, loadRoutes } from "../../utils";
+import { listenServer, loadRoutes, middlewaresServer } from "./config";
 
 class Server {
   private app: Express;
@@ -16,8 +16,7 @@ class Server {
   }
 
   private middlewares() {
-    this.app.use(express.json());
-    this.app.use(express.urlencoded({ extended: true }));
+    middlewaresServer(this.app);
   }
 
   private routes() {
