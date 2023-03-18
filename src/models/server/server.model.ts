@@ -1,6 +1,6 @@
 import express, { Express } from "express";
 import { dbConnection } from "../../database";
-import { listenServer, loadRoutes, middlewaresServer } from "./config";
+import { listenServer, loadRoutes, middlewaresServer } from "./config"
 
 class Server {
   private app: Express;
